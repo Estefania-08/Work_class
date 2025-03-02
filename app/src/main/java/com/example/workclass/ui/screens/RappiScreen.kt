@@ -200,6 +200,7 @@ fun CategorySection() {
             CategoryItem(R.drawable.farmacia, "Farmacia", Color.LightGray.copy(alpha = 0.1f))
             CategoryItem(R.drawable.express, "Express" , Color.LightGray.copy(alpha = 0.1f))
             CategoryItem(R.drawable.tiendas, "Tiendas", Color.LightGray.copy(alpha = 0.1f))
+            CategoryItem(R.drawable.rapfav, "RappiFa", Color.LightGray.copy(alpha = 0.1f))
         }
     }
 }
