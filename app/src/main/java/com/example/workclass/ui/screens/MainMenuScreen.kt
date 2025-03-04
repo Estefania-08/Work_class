@@ -35,6 +35,11 @@ fun MainMenuScreen(navController: NavHostController) {
         ){
             Text("Go to Rappi Screen")
         }
+        Button(
+            onClick = {navController.navigate("components_screen")}
+        ){
+            Text("Go to Components Screen")
+        }
 
     }
 
