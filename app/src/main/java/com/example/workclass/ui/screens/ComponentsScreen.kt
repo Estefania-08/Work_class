@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -26,6 +27,9 @@ import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.Warning
@@ -34,6 +38,7 @@ import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
+import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
@@ -46,10 +51,13 @@ import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.InputChip
 import androidx.compose.material3.InputChipDefaults
 import androidx.compose.material3.LargeFloatingActionButton
+import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.MediumTopAppBar
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
@@ -61,6 +69,9 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarColors
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -77,7 +88,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.workclass.R
+import components.PostCardComponent
 import data.model.MenuModel
+import data.model.PostCardModel
 import kotlinx.coroutines.launch
 import java.util.logging.Filter
 
@@ -93,13 +107,14 @@ fun ComponentsScreen(navController: NavHostController){
      MenuModel(7,"Badges", "badges", Icons.Filled.Info),
      MenuModel(8,"SnackBars", "snack-bars", Icons.Filled.Delete),
      MenuModel(9,"AlertDialogs", "alert-dialogs", Icons.Filled.LocationOn),
+     MenuModel(10,"Bars", "bars", Icons.Filled.Home),
 
 
 
 
  )
 
-    var option by rememberSaveable { mutableStateOf("") }
+    var option by rememberSaveable { mutableStateOf("bars") }
     var drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     var scope = rememberCoroutineScope()
 
@@ -158,6 +173,9 @@ fun ComponentsScreen(navController: NavHostController){
                 }
                 "alert-dialogs" -> {
                     AlertDialogs()
+                }
+                "bars"->{
+                    Bars()
                 }
             }
         }
@@ -495,5 +513,83 @@ fun AlertDialogs() {
             Text("Delete File")
         }
         Text(selectedOption)
+    }
+}
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun Bars(){
+    Column (
+        modifier = Modifier
+            .fillMaxSize()
+    ){
+        LargeTopAppBar(
+            colors = TopAppBarDefaults.topAppBarColors(
+                containerColor = Color.Cyan,
+                titleContentColor = Color.Black
+            ),
+            title = { Text("Screen Title")},
+            actions = {
+                IconButton(onClick = {}) {
+                    Icon(imageVector = Icons.Filled.Search, contentDescription = "Search button")
+                }
+                IconButton(onClick = {}) {
+                    Icon(imageVector = Icons.Filled.Settings, contentDescription = "Search button")
+                }
+            }
+        )
+        val arrayPosts = arrayOf(
+            PostCardModel(1,"Title 1","Text 1", R.drawable.si),
+            PostCardModel(2,"Title 2","Text 2", R.drawable.si),
+            PostCardModel(3,"Title 3","Text 3", R.drawable.si)
+        )
+        LazyRow (
+            modifier = Modifier
+                .fillMaxSize()
+                .weight(1f)
+        ){
+            items(arrayPosts){ item ->
+                PostCardComponent(item.id,item.title, item.text, item.image)
+            }
+        }
+        BottomAppBar (
+            containerColor = Color.LightGray,
+            contentColor = Color.Black
+        ){
+            IconButton(
+                modifier = Modifier.weight(1f),
+                onClick = {},
+            ){
+                Icon(imageVector  = Icons.Filled.Star, contentDescription = "")
+            }
+            IconButton(
+                //modifier = Modifier,
+                modifier = Modifier.weight(1f),
+                onClick = {},
+            ){
+                Icon(imageVector  = Icons.Filled.Home, contentDescription = "")
+            }
+            IconButton(
+                //modifier = Modifier,
+                modifier = Modifier.weight(1f),
+                onClick = {},
+            ){
+                Icon(imageVector  = Icons.Filled.Delete, contentDescription = "")
+            }
+            IconButton(
+                //modifier = Modifier,
+                modifier = Modifier.weight(1f),
+                onClick = {},
+            ){
+                Icon(imageVector  = Icons.Filled.Add, contentDescription = "")
+            }
+            IconButton(
+                //modifier = Modifier,
+                modifier = Modifier.weight(1f),
+                onClick = {},
+            ){
+                Icon(imageVector  = Icons.Filled.Share, contentDescription = "")
+            }
+        }
+
     }
 }
