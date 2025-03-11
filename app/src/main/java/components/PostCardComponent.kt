@@ -52,3 +52,36 @@ fun PostCardComponent(id:Int, title:String, text:String, image:Int){
         )
     }
 }
+@Composable
+fun PostCardCompactComponent(id:Int, title:String, text:String, image:Int){
+    Card(
+        modifier = Modifier
+            .background(Color.LightGray)
+            .fillMaxWidth()
+            .padding(5.dp)
+    ){
+        Text(
+            text = title,
+            fontSize = 24.sp,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier
+                .padding(10.dp)
+        )
+        Image(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(200.dp),
+            painter = painterResource(image),
+            contentDescription = "Android Logo",
+            contentScale = ContentScale.Crop
+        )
+        Text(
+            text= text,
+            //text = stringResource(R.string.ipsum_text),
+            textAlign = TextAlign.Justify,
+            lineHeight = 18.sp,
+            modifier = Modifier.padding(10.dp)
+
+        )
+    }
+}

@@ -1,6 +1,7 @@
 package com.example.workclass.ui.screens
 
 
+import android.icu.text.ListFormatter.Width
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,6 +11,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -72,6 +77,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -89,6 +95,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.workclass.R
+import components.PostCardCompactComponent
 import components.PostCardComponent
 import data.model.MenuModel
 import data.model.PostCardModel
@@ -537,12 +544,20 @@ fun Bars(){
                 }
             }
         )
+        /*
         val arrayPosts = arrayOf(
             PostCardModel(1,"Title 1","Text 1", R.drawable.si),
             PostCardModel(2,"Title 2","Text 2", R.drawable.si),
-            PostCardModel(3,"Title 3","Text 3", R.drawable.si)
+            PostCardModel(3,"Title 3","Text 3", R.drawable.si),
+            PostCardModel(4,"Title 4","Text 4", R.drawable.si),
+            PostCardModel(5,"Title 5","Text 5", R.drawable.si),
+            PostCardModel(6,"Title 6","Text 6", R.drawable.si),
+            PostCardModel(7,"Title 7","Text 7", R.drawable.si),
+            PostCardModel(8,"Title 8","Text 8", R.drawable.si),
+            PostCardModel(9,"Title 9","Text 9", R.drawable.si)
         )
-        LazyRow (
+        LazyVerticalGrid (
+            columns = GridCells.Adaptive(minSize = 160.dp),
             modifier = Modifier
                 .fillMaxSize()
                 .weight(1f)
@@ -550,6 +565,14 @@ fun Bars(){
             items(arrayPosts){ item ->
                 PostCardComponent(item.id,item.title, item.text, item.image)
             }
+        }*/
+
+        Column (
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxSize()
+        ){
+
         }
         BottomAppBar (
             containerColor = Color.LightGray,
@@ -590,6 +613,25 @@ fun Bars(){
                 Icon(imageVector  = Icons.Filled.Share, contentDescription = "")
             }
         }
+    }
+}
 
+@Composable
+fun Adaptive(){
+    var widowSize = currentWindowAdaptiveInfo().windowSizeClass
+    var height = currentWindowAdaptiveInfo().windowSizeClass.windowHeightSizeClass
+    var with = currentWindowAdaptiveInfo().windowSizeClass.windowWidthSizeClass
+    //Compact width < 600 dp phone Portatil
+    // Medium Width >= 600 dp < 840 dp Tablet Portatil
+    // Expanded Width >= 840 do Tablet Landscape
+
+    //Compact Height < 480 dp Phone Landsacpe
+    // Medium Height >= 480 dp <900 dp Tablet en Landscape Phone Portrait
+    // Expanded height >= 900 dp Tablet Portrait
+
+    Column {
+        Text(widowSize.toString())
+        Text(height.toString())
+        Text(with.toString())
     }
 }
