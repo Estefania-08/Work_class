@@ -62,6 +62,7 @@ import androidx.compose.material3.InputChipDefaults
 import androidx.compose.material3.LargeFloatingActionButton
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MediumTopAppBar
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
@@ -94,6 +95,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import androidx.window.core.layout.WindowHeightSizeClass
+import androidx.window.core.layout.WindowSizeClass
+import androidx.window.core.layout.WindowWidthSizeClass
 import com.example.workclass.R
 import components.PostCardCompactComponent
 import components.PostCardComponent
@@ -531,8 +535,8 @@ fun Bars(){
     ){
         LargeTopAppBar(
             colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = Color.Cyan,
-                titleContentColor = Color.Black
+                containerColor = MaterialTheme.colorScheme.primary,
+                titleContentColor = MaterialTheme.colorScheme.secondary
             ),
             title = { Text("Screen Title")},
             actions = {
@@ -572,7 +576,7 @@ fun Bars(){
                 .weight(1f)
                 .fillMaxSize()
         ){
-
+            Adaptive()
         }
         BottomAppBar (
             containerColor = Color.LightGray,
@@ -620,18 +624,43 @@ fun Bars(){
 fun Adaptive(){
     var widowSize = currentWindowAdaptiveInfo().windowSizeClass
     var height = currentWindowAdaptiveInfo().windowSizeClass.windowHeightSizeClass
-    var with = currentWindowAdaptiveInfo().windowSizeClass.windowWidthSizeClass
+    var width = currentWindowAdaptiveInfo().windowSizeClass.windowWidthSizeClass
     //Compact width < 600 dp phone Portatil
     // Medium Width >= 600 dp < 840 dp Tablet Portatil
     // Expanded Width >= 840 do Tablet Landscape
 
-    //Compact Height < 480 dp Phone Landsacpe
+    //Compact Height < 480 dp Phone Landscape
     // Medium Height >= 480 dp <900 dp Tablet en Landscape Phone Portrait
     // Expanded height >= 900 dp Tablet Portrait
-
-    Column {
-        Text(widowSize.toString())
-        Text(height.toString())
-        Text(with.toString())
+    val arrayPosts = arrayOf(
+        PostCardModel(1,"Title 1","Text 1", R.drawable.si),
+        PostCardModel(2,"Title 2","Text 2", R.drawable.si),
+        PostCardModel(3,"Title 3","Text 3", R.drawable.si),
+        PostCardModel(4,"Title 4","Text 4", R.drawable.si),
+        PostCardModel(5,"Title 5","Text 5", R.drawable.si),
+        PostCardModel(6,"Title 6","Text 6", R.drawable.si),
+        PostCardModel(7,"Title 7","Text 7", R.drawable.si),
+        PostCardModel(8,"Title 8","Text 8", R.drawable.si),
+        PostCardModel(9,"Title 9","Text 9", R.drawable.si)
+    )
+    if (width == WindowWidthSizeClass.COMPACT ){
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+        ){
+            items(arrayPosts){ item ->
+                PostCardComponent(item.id,item.title, item.text, item.image)
+            }
+        }
+    } else if (height == WindowHeightSizeClass.COMPACT)
+    {
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+        ){
+            items(arrayPosts){ item ->
+                PostCardCompactComponent(item.id,item.title, item.text, item.image)
+            }
+        }
     }
 }

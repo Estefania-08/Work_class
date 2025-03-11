@@ -48,28 +48,6 @@ class MainActivity : ComponentActivity() {
         setContent {
             WorkClassTheme {
                 ComposeMultiScreenApp()
-               /*Column() {
-                    Column() {
-                        TextComposable("Roberto")
-                        TextComposable()
-                    }
-                    Row() {
-                        TextComposable()
-                        TextComposable()
-
-                    }
-                    Column() {
-                        Text(text = "Hello Word!")
-                        Text(text = "Welcome to your first application")
-                    }
-                    Column {
-                        ModifierExample2()
-                        ModifierExample4()
-                        CustomText()
-                        picture()
-
-                    }
-                }*/
             }
         }
     }
