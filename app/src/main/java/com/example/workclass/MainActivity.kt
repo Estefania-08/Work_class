@@ -35,6 +35,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.composable
+import com.example.workclass.ui.screens.ComponentsScreen
 import com.example.workclass.ui.screens.HomeScreen
 import com.example.workclass.ui.screens.MainMenuScreen
 import com.example.workclass.ui.screens.TestScreen
@@ -47,28 +48,6 @@ class MainActivity : ComponentActivity() {
         setContent {
             WorkClassTheme {
                 ComposeMultiScreenApp()
-               /*Column() {
-                    Column() {
-                        TextComposable("Roberto")
-                        TextComposable()
-                    }
-                    Row() {
-                        TextComposable()
-                        TextComposable()
-
-                    }
-                    Column() {
-                        Text(text = "Hello Word!")
-                        Text(text = "Welcome to your first application")
-                    }
-                    Column {
-                        ModifierExample2()
-                        ModifierExample4()
-                        CustomText()
-                        picture()
-
-                    }
-                }*/
             }
         }
     }
@@ -202,6 +181,7 @@ fun SetupNavGraph(navController: NavHostController){
     composable("main_menu"){ MainMenuScreen(navController)}
         composable("home_screen"){ HomeScreen(navController)}
         composable("test_screen"){ TestScreen(navController)}
+        composable("components_screen"){ ComponentsScreen(navController) }
 
     }
 }
