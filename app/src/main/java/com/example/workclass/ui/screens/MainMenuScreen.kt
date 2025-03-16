@@ -40,7 +40,5 @@ fun MainMenuScreen(navController: NavHostController) {
         ){
             Text("Go to Components Screen")
         }
-
     }
-
 }

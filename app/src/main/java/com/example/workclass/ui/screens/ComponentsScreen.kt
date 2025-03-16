@@ -2,10 +2,20 @@ package com.example.workclass.ui.screens
 
 
 import android.icu.text.ListFormatter.Width
+import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.awaitEachGesture
+import androidx.compose.foundation.gestures.awaitFirstDown
+import androidx.compose.foundation.gestures.waitForUpOrCancellation
+
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -17,6 +27,8 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CornerSize
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
@@ -25,13 +37,18 @@ import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Create
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Done
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Face
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Share
@@ -47,6 +64,8 @@ import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -62,12 +81,15 @@ import androidx.compose.material3.InputChipDefaults
 import androidx.compose.material3.LargeFloatingActionButton
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MediumTopAppBar
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.material3.SnackbarHost
@@ -79,6 +101,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -104,7 +127,31 @@ import components.PostCardComponent
 import data.model.MenuModel
 import data.model.PostCardModel
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.logging.Filter
+import androidx.compose.material3.SingleChoiceSegmentedButtonRow
+import androidx.compose.material3.MultiChoiceSegmentedButtonRow
+import androidx.compose.material3.SegmentedButton
+import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults.Indicator
+import androidx.compose.material3.rememberBottomSheetScaffoldState
+import androidx.compose.material3.rememberDatePickerState
+import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.input.pointer.PointerEventPass
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.viewinterop.AndroidView
+import androidx.compose.ui.window.Popup
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import kotlinx.coroutines.delay
+import java.time.Instant
+import java.time.ZoneId
+import java.time.ZoneOffset
 
 @Composable
 fun ComponentsScreen(navController: NavHostController){
@@ -119,6 +166,11 @@ fun ComponentsScreen(navController: NavHostController){
      MenuModel(8,"SnackBars", "snack-bars", Icons.Filled.Delete),
      MenuModel(9,"AlertDialogs", "alert-dialogs", Icons.Filled.LocationOn),
      MenuModel(10,"Bars", "bars", Icons.Filled.Home),
+     MenuModel(11, "Input Fields", "input-fields", Icons.Filled.Edit),
+     MenuModel(12, "Date Pickers", "date-pickers", Icons.Filled.DateRange),
+     MenuModel(13, "Pull To Refresh", "pull-to-refresh", Icons.Filled.Refresh),
+     MenuModel(14, "Bottom Sheets", "bottom-sheets", Icons.Filled.Face),
+     MenuModel(15, "Segmented Buttons", "segmented-buttons", Icons.Filled.List),
 
 
 
@@ -188,11 +240,29 @@ fun ComponentsScreen(navController: NavHostController){
                 "bars"->{
                     Bars()
                 }
+                "input-fields"->{
+                    InputFields()
+                }
+                "date-pickers"->{
+                    DatePickers()
+                }
+                "pull-to-refresh"->{
+                    PullToRefresh()
+                }
+                "bottom-sheets"->{
+                    BottomSheets()
+                }
+                "segmented-buttons"->{
+                    SegmentedButtons()
+                }
             }
         }
         Text(option)
     }
 }
+
+
+
 //@Preview(showBackground = true)
 @Composable
 fun Buttons(){
@@ -664,3 +734,211 @@ fun Adaptive(){
         }
     }
 }
+
+@Composable
+fun InputFields() {
+        var text by remember { mutableStateOf("") }
+        var password by remember { mutableStateOf("") }
+        var isPasswordVisible by remember { mutableStateOf(false) }
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.SpaceEvenly
+        ) {
+            OutlinedTextField(
+                value = text,
+                onValueChange = { text = it },
+                label = { Text("Enter text") },
+                modifier = Modifier.fillMaxWidth()
+            )
+            OutlinedTextField(
+                value = password,
+                onValueChange = { password = it },
+                label = { Text("Enter password") },
+                modifier = Modifier.fillMaxWidth(),
+                visualTransformation = if (isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                trailingIcon = {
+                    IconButton(onClick = { isPasswordVisible = !isPasswordVisible }) {
+                        Icon(
+                            imageVector = if (isPasswordVisible) Icons.Filled.Close else Icons.Filled.Done,
+                            contentDescription = if (isPasswordVisible) "Hide password" else "Show password"
+                        )
+                    }
+                }
+            )
+        }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun BottomSheets() {
+    val sheetState = rememberModalBottomSheetState()
+    var showBottomSheet by remember { mutableStateOf(false) }
+
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Button(onClick = { showBottomSheet = true }) {
+            Text("Show Bottom Sheet")
+        }
+
+        if (showBottomSheet) {
+            ModalBottomSheet(
+                onDismissRequest = { showBottomSheet = false },
+                sheetState = sheetState
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(" bottom sheet")
+                    Button(onClick = { showBottomSheet = false }) {
+                        Text("Close")
+                    }
+                }
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun DatePickers() {
+    var showDatePicker by remember { mutableStateOf(false) }
+    var selectedDate by remember { mutableStateOf(LocalDate.now()) }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceEvenly
+    ) {
+        Button(onClick = { showDatePicker = true }) {
+            Icon(Icons.Filled.DateRange, contentDescription = "Date Picker")
+            Text("Select Date")
+        }
+
+        Text("Selected Date: ${selectedDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))}")
+
+        if (showDatePicker) {
+            val datePickerState = rememberDatePickerState()
+            DatePickerDialog(
+                onDismissRequest = { showDatePicker = false },
+                confirmButton = {
+                    TextButton(
+                        onClick = {
+                            datePickerState.selectedDateMillis?.let { millis ->
+                                selectedDate = Instant.ofEpochMilli(millis)
+                                    .atZone(ZoneOffset.UTC)
+                                    .toLocalDate()
+                            }
+                            showDatePicker = false
+                        }
+                    ) {
+                        Text("OK")
+                    }
+                }
+            ) {
+                DatePicker(state = datePickerState)
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SegmentedButtons() {
+
+        val options = listOf("Day", "Month", "Week")
+        var selectedOption by remember { mutableStateOf(options[0]) }
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            SingleChoiceSegmentedButtonRow {
+                options.forEach { option ->
+                    SegmentedButton(
+                        selected = selectedOption == option,
+                        onClick = { selectedOption = option },
+                        shape = when (option) {
+                            options.first() -> MaterialTheme.shapes.small.copy(
+                                topEnd = CornerSize(0),
+                                bottomEnd = CornerSize(0)
+                            )
+                            options.last() -> MaterialTheme.shapes.small.copy(
+                                topStart = CornerSize(0),
+                                bottomStart = CornerSize(0)
+                            )
+                            else -> MaterialTheme.shapes.small.copy(
+                                topStart = CornerSize(0),
+                                topEnd = CornerSize(0),
+                                bottomStart = CornerSize(0),
+                                bottomEnd = CornerSize(0)
+                            )
+                        }
+                    ) {
+                        Text(option)
+                    }
+                }
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                text = "Selected: $selectedOption",
+                style = MaterialTheme.typography.bodyMedium
+            )
+        }
+    }
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewInputFields() {
+    InputFields()
+}
+
+@Composable
+fun PullToRefresh() {
+    var refreshing by remember { mutableStateOf(false) }
+    var items by remember { mutableStateOf((1..20).toList()) }
+    val scope = rememberCoroutineScope()
+
+    AndroidView(
+        factory = { context ->
+            SwipeRefreshLayout(context).apply {
+                setOnRefreshListener {
+                    scope.launch {
+                        refreshing = true
+                        delay(1500)
+                        items = (21..40).toList()
+                        refreshing = false
+                        isRefreshing = false
+                    }
+                }
+                addView(
+                    androidx.compose.ui.platform.ComposeView(context).apply {
+                        setContent {
+                            LazyColumn(Modifier.fillMaxSize()) {
+                                items(items.size) { index ->
+                                    Text("Elemento ${items[index]}", Modifier.padding(16.dp))
+                                }
+                            }
+                        }
+                    }
+                )
+            }
+        },
+        update = { layout ->
+            layout.isRefreshing = refreshing
+        }
+    )
+}
+// incluir los nuevos componentes
