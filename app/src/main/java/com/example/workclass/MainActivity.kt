@@ -38,6 +38,7 @@ import androidx.navigation.compose.composable
 import com.example.workclass.ui.screens.ComponentsScreen
 import com.example.workclass.ui.screens.HomeScreen
 import com.example.workclass.ui.screens.MainMenuScreen
+import com.example.workclass.ui.screens.RappiScreen
 import com.example.workclass.ui.screens.TestScreen
 import com.example.workclass.ui.theme.WorkClassTheme
 
@@ -175,18 +176,16 @@ fun ComposeMultiScreenApp(){
     SetupNavGraph(navController= navController)
 }
 
-@Composable
-fun SetupNavGraph(navController: NavHostController){
-    NavHost(navController = navController, startDestination = "main_menu") {
-    composable("main_menu"){ MainMenuScreen(navController)}
-        composable("home_screen"){ HomeScreen(navController)}
-        composable("test_screen"){ TestScreen(navController)}
-        composable("components_screen"){ ComponentsScreen(navController) }
+79  @Composable
+80  fun SetupNavGraph (navController: NavHostController) {
 
-    }
-}
-
-
+81      NavHost(navController = navController, startDestination = "main_menu") {
+82          composable("main_menu") { MainMenuScreen (navController) }
+83          composable("home_screen") { HomeScreen (navController) }
+84          composable("test_screen") { TestScreen (navController) }
+85          composable("components_screen") { ComponentsScreen (navController) }
+91      }
+92  }
 
 
 
