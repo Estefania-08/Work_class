@@ -1,6 +1,7 @@
 package com.example.workclass.ui.screens
 
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -30,12 +31,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
+import data.model.UserModel
+import data.viewmodel.UserViewModel
 
 
 @Composable
-fun LoginScreen(navController: NavHostController) {
+fun LoginScreen(navController: NavHostController){
     Column (
         modifier = Modifier
             .fillMaxSize()
@@ -43,13 +49,15 @@ fun LoginScreen(navController: NavHostController) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceEvenly
     ){
-        LoginForm()
+        LoginForm(navController)
     }
 }
 
 @Composable
-fun LoginForm(){
+fun LoginForm(navController: NavHostController,
+    viewModel: UserViewModel = viewModel()){
     val context = LocalContext.current
+
     Card (
         colors = CardDefaults.cardColors(
             contentColor = Color.White,
@@ -111,7 +119,7 @@ fun LoginForm(){
                     .fillMaxWidth()
                     .padding( 0.dp, 10.dp),
                 shape = CutCornerShape(4.dp),
-                onClick = { TryLogin(user, password, context) }
+                onClick = { TryLogin(user, password, context, viewModel, navController) }
             ) {
                 Text("LOG IN")
             }
@@ -131,13 +139,28 @@ fun LoginForm(){
         }
     }
 }
-fun TryLogin(user:String, password:String, context: Context){
-    if(user == "" || password == ""){
+fun TryLogin(
+    user:String,
+    password:String,
+    context: Context,
+    viewModel: UserViewModel,
+    navController: NavController
+    ){
+    if(user == "" || password == "") {
         Toast.makeText(
             context,
             "User or Password cannot be empty",
             Toast.LENGTH_SHORT
         ).show()
+    }else{
+        val user_model = UserModel(0,"", user, password)
+        viewModel.loginApi(user_model){ jsonResponse ->
+            val loginStatus = jsonResponse?.get("login")?.asString
+            Log.d("debug","Login Status: $loginStatus")
+            if(loginStatus == "success"){
+                navController.navigate("accounts_screen")
+            }
+        }
     }
 }
 

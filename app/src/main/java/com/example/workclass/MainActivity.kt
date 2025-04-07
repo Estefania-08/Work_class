@@ -35,9 +35,12 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.composable
+import com.example.workclass.ui.screens.AccountsScreen
 import com.example.workclass.ui.screens.ComponentsScreen
 import com.example.workclass.ui.screens.HomeScreen
+import com.example.workclass.ui.screens.LoginScreen
 import com.example.workclass.ui.screens.MainMenuScreen
+import com.example.workclass.ui.screens.ManageAccountScreen
 import com.example.workclass.ui.screens.RappiScreen
 import com.example.workclass.ui.screens.TestScreen
 import com.example.workclass.ui.theme.WorkClassTheme
@@ -176,16 +179,20 @@ fun ComposeMultiScreenApp(){
     SetupNavGraph(navController= navController)
 }
 
-79  @Composable
-80  fun SetupNavGraph (navController: NavHostController) {
+ @Composable
+  fun SetupNavGraph (navController: NavHostController) {
 
-81      NavHost(navController = navController, startDestination = "main_menu") {
-82          composable("main_menu") { MainMenuScreen (navController) }
-83          composable("home_screen") { HomeScreen (navController) }
-84          composable("test_screen") { TestScreen (navController) }
-85          composable("components_screen") { ComponentsScreen (navController) }
-91      }
-92  }
+      NavHost(navController = navController, startDestination = "accounts_screen") {
+         composable("main_menu") { MainMenuScreen (navController) }
+          composable("home_screen") { HomeScreen (navController) }
+          composable("test_screen") { TestScreen (navController) }
+          composable("components_screen") { ComponentsScreen (navController) }
+          composable("login_screen") { LoginScreen (navController) }
+          composable("accounts_screen") { AccountsScreen (navController) }
+          composable("manage_account_screen") { ManageAccountScreen (navController) }
+
+      }
+  }
 
 
 

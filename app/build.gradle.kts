@@ -55,6 +55,7 @@ dependencies {
     implementation(libs.androidx.adaptive.android)
     implementation(libs.androidx.swiperefreshlayout)
     implementation(libs.coil.compose)
+    implementation(libs.androidx.media3.common.ktx)
 
     testImplementation(libs.junit)
 
@@ -70,7 +71,7 @@ dependencies {
     implementation(libs.retrofit2.kotlinx.serialization.converter)
     implementation(libs.retrofit)
     implementation(libs.okhttp)
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
+    implementation(libs.kotlinx.serialization.json)
     implementation(libs.converter.gson)
     implementation (libs.androidx.lifecycle.runtime.ktx.v262)
 }
