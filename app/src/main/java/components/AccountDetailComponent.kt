@@ -7,12 +7,15 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.workclass.R
 
@@ -25,7 +28,7 @@ fun AccountDetailComponent(
     imageURL: String,
     description: String
 ){
-    Column (){
+    Column {
         Row (
             modifier = Modifier
                 .fillMaxWidth()
@@ -43,6 +46,34 @@ fun AccountDetailComponent(
                 contentDescription = "Account Logo",
                 contentScale = ContentScale.FillBounds
             )
+            Row(
+
+            ){
+                Column(
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+
+                ){
+                    Text(modifier = Modifier.padding(10.dp),
+                        text = name,
+                        fontSize = 40.sp,
+                        fontWeight = FontWeight.ExtraBold
+                    )
+                    Text(modifier = Modifier.padding(1.dp),
+                        text= username,
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Light)
+                    Text(modifier = Modifier.padding(1.dp),
+                        text= password,
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Light)
+                    Text(modifier = Modifier.padding(1.dp),
+                        text= description,
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Light
+                    )
+                }
+            }
+       }
     }
-}
 }

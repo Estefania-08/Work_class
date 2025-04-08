@@ -77,7 +77,7 @@ fun AccountCardComponent(
                         onClick = { onButtonClick()}
                     ){
                         Icon(
-                            Icons.Filled.MoreVert,
+                            imageVector = Icons.Filled.MoreVert,
                             contentDescription = "Icon"
                         )
                     }
