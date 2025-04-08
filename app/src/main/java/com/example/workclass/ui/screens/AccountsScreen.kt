@@ -21,7 +21,8 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import components.AccountCardComponent
-import components.AccountDetailComponent
+import components.AccountDetailCardComponent
+
 import components.TopBarComponent
 import data.model.AccountModel
 import data.viewmodel.AccountViewModel
@@ -58,7 +59,8 @@ fun AccountsScreen(
             state = listState
         ){
             items(accounts){account ->
-                AccountCardComponent(account.id,
+                AccountCardComponent(
+                    account.id,
                     account.name,
                     account.username,
                     account.imageURL,
@@ -85,7 +87,7 @@ fun AccountsScreen(
             },
             sheetState = sheetState
         ){
-            AccountDetailComponent(
+            AccountDetailCardComponent(
                 accountDetail?.id ?: 0,
                 accountDetail?.name ?: "",
                 accountDetail?.username ?: "",

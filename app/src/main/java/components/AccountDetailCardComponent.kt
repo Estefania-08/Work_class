@@ -20,7 +20,7 @@ import coil.compose.AsyncImage
 import com.example.workclass.R
 
 @Composable
-fun AccountDetailComponent(
+fun AccountDetailCardComponent(
     id: Int,
     name: String,
     username: String,
