@@ -58,6 +58,7 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.androidx.media3.common.ktx)
 
+
     testImplementation(libs.junit)
 
     androidTestImplementation(libs.androidx.junit)
@@ -79,4 +80,9 @@ dependencies {
 
 
     implementation("androidx.room:room-runtime:$room_version")
+    implementation("androidx.room:room-ktx:$room_version")
+    ksp("androidx.room:room-compiler:$room_version")
+}
+ksp{
+    arg("room.schemaLocation", "$projectDir/schemas")
 }

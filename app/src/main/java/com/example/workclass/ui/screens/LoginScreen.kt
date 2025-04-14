@@ -3,11 +3,14 @@ package com.example.workclass.ui.screens
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -31,20 +34,23 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import data.model.UserModel
 import data.viewmodel.UserViewModel
+import kotlin.math.log
+import kotlin.text.get
 
 
 @Composable
-fun LoginScreen(navController: NavHostController){
-    Column (
+fun LoginScreen(navController: NavHostController) {
+    Column(
         modifier = Modifier
             .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceEvenly
@@ -54,10 +60,12 @@ fun LoginScreen(navController: NavHostController){
 }
 
 @Composable
-fun LoginForm(navController: NavHostController,
-    viewModel: UserViewModel = viewModel()){
-    val context = LocalContext.current
+fun LoginForm(
+    navController: NavController,
+    viewModel: UserViewModel = viewModel()
 
+){
+    val context = LocalContext.current
     Card (
         colors = CardDefaults.cardColors(
             contentColor = Color.White,
@@ -74,10 +82,9 @@ fun LoginForm(navController: NavHostController,
             var password by remember { mutableStateOf("") }
 
             AsyncImage(
-                model = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fnah.wikipedia.org%2Fwiki%2F%25C4%25AAxiptli%3AHonda_logo.png&psig=AOvVaw1SvCYH-EYuN51zkw3CXg-M&ust=1743134561398000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCNj2qbSwqYwDFQAAAAAdAAAAABAE",
-                contentDescription = "Logo Honda",
+                model = "https://logos-world.net/wp-content/uploads/2020/05/Minecraft-Logo.png",
+                contentDescription = "Minecraft Image",
                 contentScale = ContentScale.Fit
-
             )
 
             OutlinedTextField(
@@ -85,31 +92,35 @@ fun LoginForm(navController: NavHostController,
                     .fillMaxWidth(),
                 value = user,
                 maxLines = 1,
-                onValueChange = {user = it}, // cuando se modifica el texto se sigue asignando valor variable user
-                label = { Text("User")},
+                onValueChange = { user = it },
+                label = { Text("User") },
                 colors = OutlinedTextFieldDefaults.colors(
-                    unfocusedBorderColor = MaterialTheme.colorScheme.primary,
+                    unfocusedBorderColor = MaterialTheme.colorScheme.onSurface,
                     focusedBorderColor = MaterialTheme.colorScheme.secondary,
                     unfocusedContainerColor = Color.Transparent,
-                    unfocusedTextColor = Color.White,
-                    focusedTextColor = Color.White
+                    unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
+                    focusedTextColor = MaterialTheme.colorScheme.secondary
                 )
+
             )
+
             OutlinedTextField(
                 modifier = Modifier
                     .fillMaxWidth(),
                 value = password,
                 maxLines = 1,
-                onValueChange = {password = it}, // cuando se modifica el texto se sigue asignando valor variable user
-                label = { Text("Password")},
+                onValueChange = { password = it },
+                label = { Text("Password") },
                 colors = OutlinedTextFieldDefaults.colors(
-                    unfocusedBorderColor = MaterialTheme.colorScheme.primary,
+                    unfocusedBorderColor = MaterialTheme.colorScheme.onSurface,
                     focusedBorderColor = MaterialTheme.colorScheme.secondary,
                     unfocusedContainerColor = Color.Transparent,
-                    unfocusedTextColor = Color.Black,
-                    focusedTextColor = Color.Black
+                    unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
+                    focusedTextColor = MaterialTheme.colorScheme.secondary
                 )
+
             )
+
             FilledTonalButton(
                 colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.primary,
@@ -117,51 +128,73 @@ fun LoginForm(navController: NavHostController,
                 ),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding( 0.dp, 10.dp),
+                    .padding(0.dp, 10.dp),
                 shape = CutCornerShape(4.dp),
                 onClick = { TryLogin(user, password, context, viewModel, navController) }
             ) {
                 Text("LOG IN")
             }
+
             OutlinedButton (
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.Transparent,
-                    contentColor = MaterialTheme.colorScheme.primary
+                    contentColor = MaterialTheme.colorScheme.secondary
                 ),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding( 0.dp, 10.dp),
+                    .padding(0.dp, 10.dp),
                 shape = CutCornerShape(4.dp),
-                onClick = { }
+                border = BorderStroke(1.dp, MaterialTheme.colorScheme.secondary),
+
+                onClick = {
+                    navController.navigate("manage_account_screen")
+                }
             ) {
                 Text("CREATE ACCOUNT")
             }
+
+
+
+
         }
+
     }
 }
+
+
 fun TryLogin(
     user:String,
     password:String,
-    context: Context,
+    context:Context,
     viewModel: UserViewModel,
     navController: NavController
-    ){
-    if(user == "" || password == "") {
+){
+    if (user == "" || password == ""){
         Toast.makeText(
             context,
             "User or Password cannot be empty",
-            Toast.LENGTH_SHORT
+            Toast.LENGTH_SHORT //the message will show for a shorter times pan
         ).show()
     }else{
-        val user_model = UserModel(0,"", user, password)
-        viewModel.loginApi(user_model){ jsonResponse ->
+        val user_model = UserModel(0, "", user, password)
+        viewModel.loginAPI(user_model){
+                jsonResponse ->
             val loginStatus = jsonResponse?.get("login")?.asString
-            Log.d("debug","Login Status: $loginStatus")
-            if(loginStatus == "success"){
+            Log.d("debug", "LOGIN STATUS: $loginStatus")
+            if (loginStatus == "success") {
                 navController.navigate("accounts_screen")
+            }else {
+                Toast.makeText(
+                    context,
+                    "Failed login, check your credentials",
+                    Toast.LENGTH_SHORT
+                ).show()
+
+
             }
         }
     }
+
 }
 
 

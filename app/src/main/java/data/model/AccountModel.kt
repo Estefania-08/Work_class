@@ -12,7 +12,7 @@ data class AccountModel (
     var description: String = "",
     var imageURL:String = ""
 )
-/*07 de abril lunrs
+//07 de abril lunrs
 @Entity
 data class AccountEntity (
     @PrimaryKey val id: Int,
@@ -23,7 +23,7 @@ data class AccountEntity (
     @ColumnInfo(name = "imageURL") val imageURL: String,
 )
 
-fun AccountModel.toAccountEntity(): AccountEntity{
+fun AccountModel.toAccountEntity (): AccountEntity{
     return AccountEntity(
         id = this.id,
         name = this.name,
@@ -32,7 +32,7 @@ fun AccountModel.toAccountEntity(): AccountEntity{
         description = this.description,
         imageURL = this.imageURL
     )
-}*/
+}
 
 
 

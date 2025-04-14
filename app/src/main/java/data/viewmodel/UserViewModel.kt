@@ -11,19 +11,19 @@ import kotlinx.coroutines.launch
 class UserViewModel:ViewModel(){
     val api = RetrofitClient.api
 
-    fun loginApi(user_model: UserModel, onResult: (JsonObject?) -> Unit){
-        viewModelScope.launch {
+    fun loginAPI(user_model: UserModel, onResult: (JsonObject?) -> Unit){
+        viewModelScope.launch{
             try {
                 val response = api.login(user_model)
                 if(response.isSuccessful){
                     val jsonResponse = response.body()
-                    Log.d("debug", response.body().toString())
+                    Log.d("debug", "${response.body()}" /* or jsonResponse.toString()*/)
                     onResult(jsonResponse)
-                } else {
-                    Log.d("debug", "Error: ${response.body()}")
+                }else{
+                    Log.d("debug", "ERROR: ${response.body()}")
                     onResult(null)
                 }
-            } catch (exception: Exception){
+            }catch (exception: Exception){
                 Log.d("debug", "API CALL FAILED: $exception")
                 onResult(null)
             }

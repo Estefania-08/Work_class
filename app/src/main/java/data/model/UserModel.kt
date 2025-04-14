@@ -1,7 +1,7 @@
 package data.model
 
 data class UserModel (
-    var id: Int = 0,
+    var id: Int ,
     var name: String = "",
     var userName: String = "",
     var password: String = ""

@@ -22,4 +22,10 @@ interface ApiService {
     @POST("service")
     suspend fun addAccount(@Body service: AccountModel):Response<JsonObject>
 
+    @POST("service/{id}")
+    suspend fun updateAccount(@Path("id") id:Int, @Body service: AccountModel):Response<JsonObject>
+
+    @POST("service/{id}")
+    suspend fun deleteAccount(@Path("id") id: Int):Response<JsonObject>
+
 }

@@ -124,7 +124,7 @@ fun Content2(){
     }
 
 }
-@Preview(showBackground = true)
+@Preview
 @Composable
 fun topbar(){
     Row(
@@ -145,6 +145,7 @@ fun topbar(){
             stringResource(R.string.app_name),
             color = Color.White,
             fontSize = 30.sp
+
 
         )
     }
