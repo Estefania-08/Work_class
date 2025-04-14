@@ -1,58 +1,51 @@
 package com.example.workclass
 
+
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.example.workclass.ui.screens.AccountsScreen
 import com.example.workclass.ui.screens.ComponentsScreen
+import com.example.workclass.ui.screens.FavoriteAccountsScreen
 import com.example.workclass.ui.screens.HomeScreen
+import com.example.workclass.ui.screens.LoginScreen
 import com.example.workclass.ui.screens.MainMenuScreen
-import com.example.workclass.ui.screens.RappiScreen
+import com.example.workclass.ui.screens.ManageAccountScreen
 import com.example.workclass.ui.screens.TestScreen
+import database.AppDatabase
+
+
+
 import com.example.workclass.ui.theme.WorkClassTheme
+import database.DatabaseProvider
 
 class MainActivity : ComponentActivity() {
+    lateinit var database: AppDatabase
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //enableEdgeToEdge()
+
+        try{
+            database = DatabaseProvider.getDatabase(this)
+            Log.d("debug-db", "Database loaded successfully")
+
+        }catch (exception: Exception){
+            Log.d("debug-db", "ERROR: $exception")
+        }
         setContent {
             WorkClassTheme {
                 ComposeMultiScreenApp()
             }
         }
     }
-
+/*
     @Preview(showBackground = true)
     @Composable
     fun TextComposable(name: String = "Empty") {
@@ -101,10 +94,10 @@ class MainActivity : ComponentActivity() {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceEvenly
         ){
-            TextComposable("1")
-            TextComposable("2")
-            TextComposable("3")
-            TextComposable("4")
+          //  TextComposable("1")
+            //TextComposable("2")
+            //TextComposable("3")
+            //TextComposable("4")
 
         }
     }
@@ -167,25 +160,44 @@ fun picture(){
             contentDescription = "Logo Android",
             contentScale = ContentScale.FillHeight
         )
-    }
+    }*/
 }
 
 @Composable
 fun ComposeMultiScreenApp(){
     val navController = rememberNavController()
-    SetupNavGraph(navController= navController)
+    SetupNavGraph(navController = navController)
 }
 
-79  @Composable
-80  fun SetupNavGraph (navController: NavHostController) {
+ @Composable
+  fun SetupNavGraph(navController: NavHostController) {
 
-81      NavHost(navController = navController, startDestination = "main_menu") {
-82          composable("main_menu") { MainMenuScreen (navController) }
-83          composable("home_screen") { HomeScreen (navController) }
-84          composable("test_screen") { TestScreen (navController) }
-85          composable("components_screen") { ComponentsScreen (navController) }
-91      }
-92  }
+     NavHost(navController = navController, startDestination = "main_menu") {
+         composable("main_menu") { MainMenuScreen(navController) }
+         composable("home_screen") { HomeScreen(navController) }
+         composable("test_screen") { TestScreen(navController) }
+         composable("components_screen") { ComponentsScreen(navController) }
+         composable("login_screen") { LoginScreen(navController) }
+         composable("accounts_screen") { AccountsScreen(navController) }
+         composable("manage_account_screen") { ManageAccountScreen(navController) }
+         composable(
+             route = "manage_account_screen/{Id}",
+             arguments = listOf(navArgument("id") { defaultValue = -1 })
+         ) { backStackEntry ->
+             val id = backStackEntry.arguments?.getString("id")?.toIntOrNull() ?: -1
+             ManageAccountScreen(
+                 navController = navController,
+                 accountId = id // nombrarlo
+             )
+         }
+         composable("favorite_accounts_screen") { FavoriteAccountsScreen(navController) }
+     }
+  }
+
+
+
+
+
 
 
 
