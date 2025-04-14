@@ -55,7 +55,7 @@ fun TestScreen(navController: NavHostController){
                         ModifierExample2()
                         ModifierExample4()
                         CustomText()
-                        picture()
+                        //picture()
 
                     }
                 }
@@ -161,7 +161,7 @@ fun CustomText() {
 }
 @Preview(showBackground = true)
 @Composable
-fun picture(){
+fun Custompicture(){
     Column(
         modifier = Modifier
             .fillMaxWidth()
