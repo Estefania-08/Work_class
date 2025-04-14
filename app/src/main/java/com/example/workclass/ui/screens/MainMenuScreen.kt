@@ -53,5 +53,13 @@ fun MainMenuScreen(navController: NavHostController){
         {
             Text("Go to Login Screen")
         }
+        Button(
+            onClick = {
+                navController.navigate("accounts_screen")
+            }
+        ) {
+            Text("Go to Accounts Screen")
+        }
+
     }
 }
