@@ -12,6 +12,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.workclass.ui.screens.AccountsScreen
+import com.example.workclass.ui.screens.AppScreen
 import com.example.workclass.ui.screens.ComponentsScreen
 import com.example.workclass.ui.screens.FavoriteAccountsScreen
 import com.example.workclass.ui.screens.HomeScreen
@@ -191,6 +192,7 @@ fun ComposeMultiScreenApp(){
              )
          }
          composable("favorite_accounts_screen") { FavoriteAccountsScreen(navController) }
+         composable("Contactos") { AppScreen(navController) }
      }
   }
 

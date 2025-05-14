@@ -57,6 +57,7 @@ dependencies {
     implementation(libs.androidx.swiperefreshlayout)
     implementation(libs.coil.compose)
     implementation(libs.androidx.media3.common.ktx)
+    implementation(libs.androidx.camera.view)
 
 
     testImplementation(libs.junit)
