@@ -1,55 +1,43 @@
 package com.example.workclass.ui.screens
-import android.Manifest
 
-import android.annotation.SuppressLint
-
-import android.app.DatePickerDialog
-
-import android.content.ContentProviderOperation
-
-import android.content.ContentValues
-
-import android.content.Context
-
-import android.content.Intent
-
-import android.provider.CalendarContract
-
-import android.provider.ContactsContract
-
-import android.widget.Toast
 
 import androidx.activity.compose.rememberLauncherForActivityResult
 
-import androidx.activity.result.contract.ActivityResultContracts
+
 
 import androidx.compose.foundation.layout.*
 
 import androidx.compose.foundation.lazy.LazyColumn
-
 import androidx.compose.foundation.lazy.items
-
 import androidx.compose.foundation.rememberScrollState
-
-import androidx.compose.foundation.text.KeyboardOptions
-
 import androidx.compose.foundation.verticalScroll
-
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
 import java.util.*
+import android.Manifest
+import android.annotation.SuppressLint
+import android.app.DatePickerDialog
+import android.content.ContentProviderOperation
+import android.content.ContentValues
+import android.content.Context
+import android.content.Intent
+import android.provider.CalendarContract
+import android.provider.ContactsContract
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.navigation.NavController
 
+@SuppressLint("QueryPermissionsNeeded")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppScreen(navController: NavHostController){
+fun AppScreen(navController: NavController){
     val context = LocalContext.current
 
     // Permisos
@@ -281,8 +269,6 @@ fun AppScreen(navController: NavHostController){
             Spacer(modifier = Modifier.height(80.dp))
         }
     }
-
-
 }
 
 fun abrirAppContactos(context: Context){

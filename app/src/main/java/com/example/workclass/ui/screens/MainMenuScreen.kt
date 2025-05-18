@@ -66,7 +66,7 @@ fun MainMenuScreen(navController: NavHostController){
                 navController.navigate("AppScreen")
             }
         ) {
-            Text("Go to Calendario")
+            Text("Go to Calendar")
         }
 
 

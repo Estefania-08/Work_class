@@ -192,7 +192,7 @@ fun ComposeMultiScreenApp(){
              )
          }
          composable("favorite_accounts_screen") { FavoriteAccountsScreen(navController) }
-         composable("Contactos") { AppScreen(navController) }
+         composable("Contacts") { AppScreen(navController) }
      }
   }
 
