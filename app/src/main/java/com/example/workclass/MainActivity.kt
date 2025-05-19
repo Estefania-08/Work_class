@@ -1,11 +1,15 @@
 package com.example.workclass
 
 
+import android.app.Fragment
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
+import androidx.fragment.app.FragmentActivity
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -14,6 +18,7 @@ import androidx.navigation.navArgument
 import com.example.clasetrabajo.ui.screens.AppScreen
 import com.example.clasetrabajo.ui.screens.Calendar
 import com.example.workclass.ui.screens.AccountsScreen
+import com.example.workclass.ui.screens.BiometricScreen
 import com.example.workclass.ui.screens.ComponentsScreen
 import com.example.workclass.ui.screens.FavoriteAccountsScreen
 import com.example.workclass.ui.screens.HomeScreen
@@ -28,7 +33,7 @@ import database.AppDatabase
 import com.example.workclass.ui.theme.WorkClassTheme
 import database.DatabaseProvider
 
-class MainActivity : ComponentActivity() {
+class MainActivity : FragmentActivity() {
     lateinit var database: AppDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -77,9 +82,18 @@ fun ComposeMultiScreenApp(){
              )
          }
          composable("favorite_accounts_screen") { FavoriteAccountsScreen(navController) }
-         composable("CalScreen") { Calendar(navController) }
+         composable("Calendar") { Calendar(navController) }
+         composable ("biometric_screen"){
+             val context = LocalContext.current
+             BiometricScreen(navController, onAuthSuccess = {
+                 Toast.makeText(context, "Authentication successful", Toast.LENGTH_SHORT).show()
+
+             })
+         }
+         //composable("notification_screen"){ NotificationScreen(navController) }
      }
   }
+
 
 
 
