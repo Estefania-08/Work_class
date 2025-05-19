@@ -1,3 +1,5 @@
+import org.gradle.kotlin.dsl.implementation
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -77,12 +79,20 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.converter.gson)
     implementation (libs.androidx.lifecycle.runtime.ktx.v262)
+    implementation (libs.androidx.activity.ktx)
+    implementation(libs.androidx.lifecycle.runtime.compose) // Mejor integración
+    implementation(libs.androidx.core.ktx) // Para ContentResolver
+    implementation(libs.androidx.activity.compose) // Para ActivityResultLauncher
+    implementation(libs.androidx.activity.ktx) // Para contextos
+
+    // Para manejo de calendario
+
     val room_version = "2.6.1"
 
 
-    implementation("androidx.room:room-runtime:$room_version")
+    implementation(libs.androidx.room.runtime)
     implementation("androidx.room:room-ktx:$room_version")
-    ksp("androidx.room:room-compiler:$room_version")
+    ksp(libs.androidx.room.compiler)
 }
 ksp{
     arg("room.schemaLocation", "$projectDir/schemas")
