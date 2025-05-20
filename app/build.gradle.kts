@@ -85,6 +85,8 @@ dependencies {
     implementation(libs.androidx.activity.compose) // Para ActivityResultLauncher
     implementation(libs.androidx.activity.ktx) // Para contextos
 
+    implementation ("androidx.biometric:biometric:1.2.0-alpha05") //sensor
+
     // Para manejo de calendario
 
     val room_version = "2.6.1"
