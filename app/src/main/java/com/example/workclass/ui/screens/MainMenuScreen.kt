@@ -60,6 +60,13 @@ fun MainMenuScreen(navController: NavHostController){
         ) {
             Text("Go to Accounts Screen")
         }
+        Button(
+            onClick = {
+                navController.navigate("Camara")
+            }
+        ) {
+            Text("Go to Camara Screen")
+        }
 
         Button(
             onClick = {
