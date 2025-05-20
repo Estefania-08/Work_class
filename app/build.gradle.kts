@@ -1,3 +1,5 @@
+import org.gradle.kotlin.dsl.implementation
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -57,6 +59,7 @@ dependencies {
     implementation(libs.androidx.swiperefreshlayout)
     implementation(libs.coil.compose)
     implementation(libs.androidx.media3.common.ktx)
+    implementation(libs.androidx.camera.view)
 
 
     testImplementation(libs.junit)
@@ -76,13 +79,34 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.converter.gson)
     implementation (libs.androidx.lifecycle.runtime.ktx.v262)
+    implementation (libs.androidx.activity.ktx)
+    implementation(libs.androidx.lifecycle.runtime.compose) // Mejor integración
+    implementation(libs.androidx.core.ktx) // Para ContentResolver
+    implementation(libs.androidx.activity.compose) // Para ActivityResultLauncher
+    implementation(libs.androidx.activity.ktx) // Para contextos
+
+    implementation ("androidx.biometric:biometric:1.2.0-alpha05") //sensor
+
+    // Para manejo de calendario
+
     val room_version = "2.6.1"
+    val cameraxVersion = "1.3.1"
+    implementation("androidx.camera:camera-core:$cameraxVersion") // Lógica base
+    implementation("androidx.camera:camera-camera2:$cameraxVersion")// Conexión con la API Camera2
+    implementation("androidx.camera:camera-lifecycle:$cameraxVersion")
+    implementation("androidx.camera:camera-view:$cameraxVersion") // Necesario para la prewiew
+    implementation("androidx.navigation:navigation-compose:2.7.7")
+    implementation ("com.google.accompanist:accompanist-permissions:0.34.0")
+    implementation("androidx.camera:camera-video:$cameraxVersion")
+    implementation ("io.coil-kt:coil-compose:2.2.2")
 
 
-    implementation("androidx.room:room-runtime:$room_version")
+    implementation(libs.androidx.room.runtime)
     implementation("androidx.room:room-ktx:$room_version")
-    ksp("androidx.room:room-compiler:$room_version")
+    ksp(libs.androidx.room.compiler)
 }
 ksp{
     arg("room.schemaLocation", "$projectDir/schemas")
+
+
 }
