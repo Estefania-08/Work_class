@@ -18,7 +18,11 @@ import androidx.navigation.navArgument
 import com.example.clasetrabajo.ui.screens.AppScreen
 import com.example.clasetrabajo.ui.screens.Calendar
 import com.example.workclass.ui.screens.AccountsScreen
+
 import com.example.workclass.ui.screens.BiometricScreen
+
+import com.example.workclass.ui.screens.Camara
+
 import com.example.workclass.ui.screens.ComponentsScreen
 import com.example.workclass.ui.screens.FavoriteAccountsScreen
 import com.example.workclass.ui.screens.HomeScreen
@@ -82,6 +86,7 @@ fun ComposeMultiScreenApp(){
              )
          }
          composable("favorite_accounts_screen") { FavoriteAccountsScreen(navController) }
+
          composable("Calendar") { Calendar(navController) }
          composable ("biometric_screen"){
              val context = LocalContext.current
@@ -91,6 +96,13 @@ fun ComposeMultiScreenApp(){
              })
          }
          //composable("notification_screen"){ NotificationScreen(navController) }
+
+
+         composable("CalScreen") { Calendar(navController) }
+
+         composable("Camara") { Camara(navController) }
+
+
      }
   }
 

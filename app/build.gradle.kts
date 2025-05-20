@@ -90,6 +90,15 @@ dependencies {
     // Para manejo de calendario
 
     val room_version = "2.6.1"
+    val cameraxVersion = "1.3.1"
+    implementation("androidx.camera:camera-core:$cameraxVersion") // Lógica base
+    implementation("androidx.camera:camera-camera2:$cameraxVersion")// Conexión con la API Camera2
+    implementation("androidx.camera:camera-lifecycle:$cameraxVersion")
+    implementation("androidx.camera:camera-view:$cameraxVersion") // Necesario para la prewiew
+    implementation("androidx.navigation:navigation-compose:2.7.7")
+    implementation ("com.google.accompanist:accompanist-permissions:0.34.0")
+    implementation("androidx.camera:camera-video:$cameraxVersion")
+    implementation ("io.coil-kt:coil-compose:2.2.2")
 
 
     implementation(libs.androidx.room.runtime)
@@ -98,4 +107,6 @@ dependencies {
 }
 ksp{
     arg("room.schemaLocation", "$projectDir/schemas")
+
+
 }
